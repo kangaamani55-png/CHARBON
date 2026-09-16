@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compte client - BLAKFLAMME</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    header {
+      background: #000;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      border-bottom: 4px solid #e00000;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #e00000;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 850px;
+      margin: 35px auto;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .champ {
+      margin-bottom: 15px;
+    }
+
+    .champ label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .champ input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    .bouton {
+      background: #e00000;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .bouton:hover {
+      background: #b00000;
+    }
+
+    .secondaire {
+      background: #000;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: white;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      border-top: 4px solid #e00000;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 30px;
+      color: #e00000;
+    }
+
+    .commande {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+
+    .commande:last-child {
+      border-bottom: none;
+    }
+
+    .cache {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>BLAKFLAMME</h1>
+  <p>Espace client</p>
+</header>
+
+<main class="container">
+
+  <!-- CONNEXION -->
+  <section id="connexion-section" class="box">
+
+    <h2>🔐 Connexion</h2>
+
+    <form id="connexion-form">
+
+      <div class="champ">
+        <label>Email</label>
+        <input type="email" id="login-email" required>
+      </div>
+
+      <div class="champ">
+        <label>Mot de passe</label>
+        <input type="password" id="login-password" required>
+      </div>
+
+      <button class="bouton" type="submit">
+        Se connecter
+      </button>
+
+    </form>
+
+    <p id="login-message" class="message"></p>
+
+    <button class="bouton secondaire" id="afficher-inscription">
+      Créer un compte
+    </button>
+
+  </section>
+
+  <!-- INSCRIPTION -->
+  <section id="inscription-section" class="box cache">
+
+    <h2>📝 Créer un compte</h2>
+
+    <form id="inscription-form">
+
+      <div class="champ">
+        <label>Nom et prénom</label>
+        <input type="text" id="register-name" required>
+      </div>
+
+      <div class="champ">
+        <label>Téléphone</label>
+        <input type="tel" id="register-phone" required>
+      </div>
+
+      <div class="champ">
+        <label>Email</label>
+        <input type="email" id="register-email" required>
+      </div>
+
+      <div class="champ">
+        <label>Mot de passe</label>
+        <input type="password" id="register-password" minlength="6" required>
+      </div>
+
+      <button class="bouton" type="submit">
+        Créer mon compte
+      </button>
+
+    </form>
+
+    <p id="register-message" class="message"></p>
+
+    <button class="bouton secondaire" id="retour-connexion">
+      Retour à la connexion
+    </button>
+
+  </section>
+
+  <!-- ESPACE CLIENT -->
+  <section id="espace-client" class="cache">
+
+    <div class="box">
+      <h2>👋 Bienvenue <span id="nom-client"></span></h2>
+      <p>Voici votre espace personnel BLAKFLAMME.</p>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="nombre-commandes">0</strong>
+        Commandes
+      </div>
+
+      <div class="stat">
+        <strong id="commandes-attente">0</strong>
+        En attente
+      </div>
+
+      <div class="stat">
+        <strong id="commandes-terminees">0</strong>
+        Terminées
+      </div>
+
+    </div>
+
+    <div class="box">
+
+      <h2>📦 Mes commandes</h2>
+
+      <div id="liste-commandes">
+        Aucune commande pour le moment.
+      </div>
+
+      <br>
+
+      <button class="bouton secondaire" onclick="deconnexion()">
+        Se déconnecter
+      </button>
+
+      <a href="/" class="bouton">
+        Retour au site
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+const token = localStorage.getItem("blakflamme_token");
+const user = JSON.parse(
+  localStorage.getItem("blakflamme_user") || "null"
+);
+
+const connexionSection =
+  document.getElementById("connexion-section");
+
+const inscriptionSection =
+  document.getElementById("inscription-section");
+
+const espaceClient =
+  document.getElementById("espace-client");
+
+
+function afficherEspaceClient() {
+
+  if (!token || !user) {
+    connexionSection.classList.remove("cache");
+    inscriptionSection.classList.add("cache");
+    espaceClient.classList.add("cache");
+    return;
+  }
+
+  connexionSection.classList.add("cache");
+  inscriptionSection.classList.add("cache");
+  espaceClient.classList.remove("cache");
+
+  document.getElementById("nom-client").textContent =
+    user.name;
+
+  chargerCommandes();
+}
+
+
+document
+  .getElementById("afficher-inscription")
+  .addEventListener("click", () => {
+
+    connexionSection.classList.add("cache");
+    inscriptionSection.classList.remove("cache");
+
+  });
+
+
+document
+  .getElementById("retour-connexion")
+  .addEventListener("click", () => {
+
+    inscriptionSection.classList.add("cache");
+    connexionSection.classList.remove("cache");
+
+  });
+
+
+/* INSCRIPTION */
+
+document
+  .getElementById("inscription-form")
+  .addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const name =
+      document.getElementById("register-name").value;
+
+    const phone =
+      document.getElementById("register-phone").value;
+
+    const email =
+      document.getElementById("register-email").value;
+
+    const password =
+      document.getElementById("register-password").value;
+
+    try {
+
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      document.getElementById("register-message")
+        .textContent = data.message;
+
+      if (response.ok) {
+
+        document.getElementById("inscription-form").reset();
+
+        setTimeout(() => {
+
+          inscriptionSection.classList.add("cache");
+          connexionSection.classList.remove("cache");
+
+        }, 1000);
+      }
+
+    } catch (error) {
+
+      document.getElementById("register-message")
+        .textContent =
+        "Erreur de connexion au serveur.";
+
+    }
+
+  });
+
+
+/* CONNEXION */
+
+document
+  .getElementById("connexion-form")
+  .addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const email =
+      document.getElementById("login-email").value;
+
+    const password =
+      document.getElementById("login-password").value;
+
+    try {
+
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      document.getElementById("login-message")
+        .textContent = data.message;
+
+      if (response.ok) {
+
+        localStorage.setItem(
+          "blakflamme_token",
+          data.token
+        );
+
+        localStorage.setItem(
+          "blakflamme_user",
+          JSON.stringify(data.user)
+        );
+
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+      }
+
+    } catch (error) {
+
+      document.getElementById("login-message")
+        .textContent =
+        "Erreur de connexion au serveur.";
+
+    }
+
+  });
+
+
+/* COMMANDES */
+
+async function chargerCommandes() {
+
+  try {
+
+    const response = await fetch(
+      "/api/orders/my-orders",
+      {
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    document.getElementById("nombre-commandes")
+      .textContent = data.count;
+
+    const commandes = data.orders || [];
+
+    const attente = commandes.filter(
+      commande => commande.status === "En attente"
+    ).length;
+
+    const terminees = commandes.filter(
+      commande => commande.status === "Terminée"
+    ).length;
+
+    document.getElementById("commandes-attente")
+      .textContent = attente;
+
+    document.getElementById("commandes-terminees")
+      .textContent = terminees;
+
+    const liste =
+      document.getElementById("liste-commandes");
+
+    if (commandes.length === 0) {
+
+      liste.innerHTML =
+        "<p>Aucune commande pour le moment.</p>";
+
+      return;
+    }
+
+    liste.innerHTML = commandes.map(commande => `
+
+      <div class="commande">
+
+        <strong>
+          Commande #${commande.id}
+        </strong>
+
+        <p>
+          Total :
+          ${Number(commande.total).toLocaleString("fr-FR")}
+          FCFA
+        </p>
+
+        <p>
+          Statut : ${commande.status}
+        </p>
+
+        <p>
+          Adresse :
+          ${commande.deliveryAddress || "Non renseignée"}
+        </p>
+
+      </div>
+
+    `).join("");
+
+  } catch (error) {
+
+    document.getElementById("liste-commandes")
+      .textContent =
+      "Impossible de charger les commandes.";
+
+  }
+
+}
+
+
+/* DECONNEXION */
+
+function deconnexion() {
+
+  localStorage.removeItem("blakflamme_token");
+  localStorage.removeItem("blakflamme_user");
+
+  location.reload();
+
+}
+
+
+afficherEspaceClient();
+
+</script>
+
+</body>
+</html>

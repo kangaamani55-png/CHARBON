@@ -1,522 +1,430 @@
-const buttons = document.querySelectorAll("article button");
+const produits = [
+  { nom: "Charbon — 5 kg", prix: 1500 },
+  { nom: "Charbon — 10 kg", prix: 2500 },
+  { nom: "Charbon — 25 kg", prix: 5000 },
+  { nom: "Charbon — 50 kg", prix: 9000 }
+];
+
+let panier = [];
 
 const panierListe = document.getElementById("panier-liste");
 const panierTotal = document.getElementById("panier-total");
 const viderPanier = document.getElementById("vider-panier");
 const commander = document.getElementById("commander");
 
-let panier = [];
-
-// =========================
-// PANIER
-// =========================
-
 function afficherPanier() {
-    panierListe.innerHTML = "";
+  panierListe.innerHTML = "";
 
-    if (panier.length === 0) {
-        panierListe.innerHTML = "<p>Votre panier est vide.</p>";
-        panierTotal.textContent = "0 FCFA";
-        commander.disabled = true;
-        return;
+  if (panier.length === 0) {
+    panierListe.innerHTML = "<p>Votre panier est vide.</p>";
+    panierTotal.textContent = "0 FCFA";
+    commander.disabled = true;
+    return;
+  }
+
+  let total = 0;
+
+  panier.forEach((produit, index) => {
+    total += produit.prix * produit.quantite;
+
+    const article = document.createElement("div");
+
+    article.innerHTML = `
+      <h3>${produit.nom}</h3>
+      <p>Prix : ${produit.prix.toLocaleString()} FCFA</p>
+      <p>Quantité : ${produit.quantite}</p>
+      <button onclick="diminuer(${index})">−</button>
+      <button onclick="augmenter(${index})">+</button>
+      <button onclick="supprimer(${index})">Supprimer</button>
+    `;
+
+    panierListe.appendChild(article);
+  });
+
+  panierTotal.textContent = total.toLocaleString() + " FCFA";
+  commander.disabled = false;
+}
+
+function ajouterAuPanier(index) {
+  const produit = produits[index];
+
+  const existe = panier.find(item => item.nom === produit.nom);
+
+  if (existe) {
+    existe.quantite++;
+  } else {
+    panier.push({
+      nom: produit.nom,
+      prix: produit.prix,
+      quantite: 1
+    });
+  }
+
+  afficherPanier();
+}
+
+function augmenter(index) {
+  panier[index].quantite++;
+  afficherPanier();
+}
+
+function diminuer(index) {
+  panier[index].quantite--;
+
+  if (panier[index].quantite <= 0) {
+    panier.splice(index, 1);
+  }
+
+  afficherPanier();
+}
+
+function supprimer(index) {
+  panier.splice(index, 1);
+  afficherPanier();
+}
+
+document.querySelectorAll("#produits article button").forEach((button, index) => {
+  button.addEventListener("click", () => {
+    ajouterAuPanier(index);
+  });
+});
+
+viderPanier.addEventListener("click", () => {
+  panier = [];
+  afficherPanier();
+});
+
+commander.addEventListener("click", () => {
+  if (panier.length === 0) return;
+
+  document.getElementById("commande").style.display = "block";
+
+  document.getElementById("commande").scrollIntoView({
+    behavior: "smooth"
+  });
+
+  afficherRecapitulatif();
+});
+
+function afficherRecapitulatif() {
+  const liste = document.getElementById("recapitulatif-liste");
+  const totalElement = document.getElementById("recapitulatif-total");
+
+  liste.innerHTML = "";
+
+  let total = 0;
+
+  panier.forEach(produit => {
+    const sousTotal = produit.prix * produit.quantite;
+    total += sousTotal;
+
+    const ligne = document.createElement("p");
+
+    ligne.textContent =
+      `${produit.nom} × ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA`;
+
+    liste.appendChild(ligne);
+  });
+
+  totalElement.textContent = total.toLocaleString() + " FCFA";
+}
+document
+  .getElementById("formulaire-commande")
+  .addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    const nom = document.getElementById("nom").value;
+    const telephone = document.getElementById("telephone").value;
+    const adresse = document.getElementById("adresse").value;
+
+    const token = localStorage.getItem("blakflamme_token");
+
+    if (!token) {
+      alert("Veuillez vous connecter à votre espace client avant de confirmer la commande.");
+      window.location.href = "/compte.html";
+      return;
     }
 
-    commander.disabled = false;
+    let message = "🔥 *COMMANDE BLAKFLAMME* 🔥\n\n";
+
+    message += `👤 Nom : ${nom}\n`;
+    message += `📞 Téléphone : ${telephone}\n`;
+    message += `📍 Adresse : ${adresse}\n\n`;
+
+    message += "🛒 *Commande :*\n";
 
     let total = 0;
 
-    panier.forEach((produit, index) => {
-        const sousTotal = produit.prix * produit.quantite;
-        total += sousTotal;
+    panier.forEach(produit => {
 
-        const ligne = document.createElement("div");
+      const sousTotal =
+        produit.prix * produit.quantite;
 
-        ligne.innerHTML = `
-            <p><strong>${produit.nom}</strong></p>
-            <p>${produit.prix.toLocaleString()} FCFA × ${produit.quantite}</p>
+      total += sousTotal;
 
-            <button onclick="diminuerQuantite(${index})">−</button>
-            <button onclick="augmenterQuantite(${index})">+</button>
-            <button onclick="supprimerProduit(${index})">❌</button>
-
-            <p>
-                Sous-total :
-                <strong>${sousTotal.toLocaleString()} FCFA</strong>
-            </p>
-
-            <hr>
-        `;
-
-        panierListe.appendChild(ligne);
+      message +=
+        `• ${produit.nom} × ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA\n`;
     });
 
-    panierTotal.textContent =
-        total.toLocaleString() + " FCFA";
-}
+    message +=
+      `\n💰 *TOTAL : ${total.toLocaleString()} FCFA*`;
 
+    // Préparer les articles pour le serveur
+    const items = panier.map(produit => ({
+      nom: produit.nom,
+      prix: produit.prix,
+      quantite: produit.quantite
+    }));
 
-// =========================
-// AJOUTER AU PANIER
-// =========================
+    // Enregistrer la commande
+    try {
 
-buttons.forEach(function (button) {
+      const response = await fetch("/api/orders", {
+        method: "POST",
 
-    button.addEventListener("click", function () {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
 
-        const article = button.closest("article");
+        body: JSON.stringify({
+          items: items,
+          total: total,
+          deliveryAddress: adresse
+        })
+      });
 
-        const nom =
-            article.querySelector("h3").textContent;
+      const data = await response.json();
 
-        const prixTexte =
-            article.querySelector("p").textContent;
+      if (!response.ok) {
 
-        const prix =
-            parseInt(prixTexte.replace(/\D/g, ""));
+        alert(
+          data.message ||
+          "Impossible d'enregistrer la commande."
+        );
 
-        const produitExistant =
-            panier.find(function (produit) {
-                return produit.nom === nom;
-            });
-
-        if (produitExistant) {
-
-            produitExistant.quantite++;
-
-        } else {
-
-            panier.push({
-                nom: nom,
-                prix: prix,
-                quantite: 1
-            });
-
-        }
-
-        afficherPanier();
-
-    });
-
-});
-
-
-// =========================
-// AUGMENTER
-// =========================
-
-function augmenterQuantite(index) {
-
-    panier[index].quantite++;
-
-    afficherPanier();
-}
-
-
-// =========================
-// DIMINUER
-// =========================
-
-function diminuerQuantite(index) {
-
-    panier[index].quantite--;
-
-    if (panier[index].quantite <= 0) {
-
-        panier.splice(index, 1);
-
-    }
-
-    afficherPanier();
-}
-
-
-// =========================
-// SUPPRIMER
-// =========================
-
-function supprimerProduit(index) {
-
-    panier.splice(index, 1);
-
-    afficherPanier();
-}
-
-
-// =========================
-// VIDER
-// =========================
-
-viderPanier.addEventListener("click", function () {
-
-    panier = [];
-
-    afficherPanier();
-
-});
-
-
-// =========================
-// COMMANDER
-// =========================
-
-commander.addEventListener("click", function () {
-
-    if (panier.length === 0) {
         return;
+      }
+
+      // Confirmation WhatsApp
+      const numeroWhatsApp =
+        "2250544115426";
+
+      const lienWhatsApp =
+        "https://wa.me/" +
+        numeroWhatsApp +
+        "?text=" +
+        encodeURIComponent(message);
+
+      window.open(
+        lienWhatsApp,
+        "_blank"
+      );
+
+      alert(
+        "✅ Commande enregistrée avec succès !\n\nStatut : En attente"
+      );
+
+      // Vider le panier
+      panier = [];
+
+      afficherPanier();
+
+      document.getElementById(
+        "commande"
+      ).style.display = "none";
+
+      document.getElementById(
+        "formulaire-commande"
+      ).reset();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Erreur de connexion au serveur."
+      );
     }
+  });
 
-    alert("Votre commande peut maintenant être préparée.");
+/* =========================
+   CHATBOT BLAKFLAMME
+========================= */
 
-});
+const chatbotBouton = document.createElement("button");
 
+chatbotBouton.id = "chatbot-bouton";
+chatbotBouton.textContent = "💬";
 
-// ==================================================
-// CHATBOT
-// ==================================================
+document.body.appendChild(chatbotBouton);
 
-const chatbotHTML = `
-    <button id="chatbot-bouton">💬</button>
+const chatbot = document.createElement("div");
 
-    <div id="chatbot">
+chatbot.id = "chatbot";
 
-        <div id="chatbot-header">
-            <strong>🔥 Assistant BLAKFLAMME</strong>
-            <button id="chatbot-fermer">×</button>
-        </div>
+chatbot.innerHTML = `
+  <div id="chatbot-header">
+    <strong>🔥 Assistant BLAKFLAMME</strong>
+    <button id="chatbot-fermer">×</button>
+  </div>
 
-        <div id="chatbot-messages">
-
-            <div class="bot-message">
-                Bonjour 👋 Bienvenue chez BLAKFLAMME !
-                <br><br>
-                Comment puis-je vous aider ?
-            </div>
-
-        </div>
-
-        <div id="chatbot-choix">
-
-            <button data-question="produits">
-                🪵 Produits
-            </button>
-
-            <button data-question="commande">
-                📦 Commander
-            </button>
-
-            <button data-question="paiement">
-                💳 Paiement
-            </button>
-
-            <button data-question="contact">
-                📞 Contact
-            </button>
-
-        </div>
-
-        <div id="chatbot-input">
-
-            <input
-                type="text"
-                id="chatbot-message"
-                placeholder="Écrivez votre message..."
-            >
-
-            <button id="chatbot-envoyer">
-                ➤
-            </button>
-
-        </div>
-
+  <div id="chatbot-messages">
+    <div class="bot-message">
+      Bonjour 👋 Bienvenue chez BLAKFLAMME !
+      Comment puis-je vous aider ?
     </div>
+  </div>
+
+  <div id="chatbot-choix">
+    <button data-question="produits">Produits</button>
+    <button data-question="commander">Commander</button>
+    <button data-question="paiement">Comment payer ?</button>
+    <button data-question="contact">Contact</button>
+  </div>
+
+  <div id="chatbot-input">
+    <input
+      type="text"
+      id="chatbot-message"
+      placeholder="Écrivez votre message..."
+    >
+    <button id="chatbot-envoyer">➤</button>
+  </div>
 `;
 
-document.body.insertAdjacentHTML(
-    "beforeend",
-    chatbotHTML
-);
+document.body.appendChild(chatbot);
 
-
-// =========================
-// ÉLÉMENTS CHATBOT
-// =========================
-
-const chatbotBouton =
-    document.getElementById("chatbot-bouton");
-
-const chatbot =
-    document.getElementById("chatbot");
-
-const chatbotFermer =
-    document.getElementById("chatbot-fermer");
-
-const chatbotMessages =
-    document.getElementById("chatbot-messages");
-
-const chatbotInput =
-    document.getElementById("chatbot-message");
-
-const chatbotEnvoyer =
-    document.getElementById("chatbot-envoyer");
-
-
-// =========================
-// OUVRIR
-// =========================
-
-chatbotBouton.addEventListener("click", function () {
-
-    chatbot.classList.add("ouvert");
-
+chatbotBouton.addEventListener("click", () => {
+  chatbot.classList.toggle("ouvert");
 });
 
-
-// =========================
-// FERMER
-// =========================
-
-chatbotFermer.addEventListener("click", function () {
-
-    chatbot.classList.remove("ouvert");
-
+document.getElementById("chatbot-fermer").addEventListener("click", () => {
+  chatbot.classList.remove("ouvert");
 });
-
-
-// =========================
-// MESSAGE
-// =========================
-
-function ajouterMessage(message, type) {
-
-    const div = document.createElement("div");
-
-    div.className =
-        type === "user"
-            ? "user-message"
-            : "bot-message";
-
-    div.textContent = message;
-
-    chatbotMessages.appendChild(div);
-
-    chatbotMessages.scrollTop =
-        chatbotMessages.scrollHeight;
-}
-
-
-// =========================
-// RÉPONSES
-// =========================
 
 function repondre(message) {
 
-    const texte = message.toLowerCase();
+  const texte = message.toLowerCase();
 
+  if (
+    texte.includes("bonjour") ||
+    texte.includes("salut") ||
+    texte.includes("bonsoir")
+  ) {
+    return "Bonjour 👋 Bienvenue chez BLAKFLAMME ! Que souhaitez-vous savoir ?";
+  }
 
-    if (
-        texte.includes("bonjour") ||
-        texte.includes("salut") ||
-        texte.includes("bonsoir")
-    ) {
+  if (
+    texte.includes("produit") ||
+    texte.includes("prix") ||
+    texte.includes("charbon")
+  ) {
+    return `🔥 Nos produits :
 
-        return "Bonjour 👋 Bienvenue chez BLAKFLAMME ! Comment puis-je vous aider ?";
+• Charbon 5 kg : 1 500 FCFA
+• Charbon 10 kg : 2 500 FCFA
+• Charbon 25 kg : 5 000 FCFA
+• Charbon 50 kg : 9 000 FCFA`;
+  }
 
-    }
+  if (
+    texte.includes("commande") ||
+    texte.includes("acheter")
+  ) {
+    return "🛒 Ajoutez vos produits au panier, puis cliquez sur « Passer la commande ». Vous pourrez ensuite envoyer votre commande directement sur WhatsApp.";
+  }
 
+  if (
+    texte.includes("payer") ||
+    texte.includes("paiement") ||
+    texte.includes("pay")
+  ) {
+    return "💳 Pour le paiement, contactez-nous directement sur WhatsApp afin de connaître les modalités disponibles pour votre commande.";
+  }
 
-    if (
-        texte.includes("produit") ||
-        texte.includes("charbon") ||
-        texte.includes("prix") ||
-        texte.includes("kg")
-    ) {
+  if (
+    texte.includes("livraison") ||
+    texte.includes("livrer")
+  ) {
+    return "🚚 Pour la livraison, indiquez votre quartier, votre rue ou un point de repère dans le formulaire de commande.";
+  }
 
-        return "🪵 Nos produits sont : 5 kg à 1 500 FCFA, 10 kg à 2 500 FCFA, 25 kg à 5 000 FCFA et 50 kg à 9 000 FCFA.";
+  if (
+    texte.includes("contact") ||
+    texte.includes("whatsapp")
+  ) {
+    return "📞 Vous pouvez nous contacter directement sur WhatsApp depuis le bouton WhatsApp de la section Contact.";
+  }
 
-    }
+  if (
+    texte.includes("merci")
+  ) {
+    return "Avec plaisir 😊🔥";
+  }
 
-
-    if (
-        texte.includes("commande") ||
-        texte.includes("commander") ||
-        texte.includes("acheter")
-    ) {
-
-        return "📦 Pour commander, ajoutez votre produit au panier, puis cliquez sur « Passer la commande ».";
-
-    }
-
-
-    if (
-        texte.includes("payer") ||
-        texte.includes("paiement") ||
-        texte.includes("wave") ||
-        texte.includes("orange money") ||
-        texte.includes("mtn") ||
-        texte.includes("moov")
-    ) {
-
-        return "💳 Pour le paiement, les moyens disponibles seront indiqués lors de votre commande.";
-
-    }
-
-
-    if (
-        texte.includes("livraison") ||
-        texte.includes("livrer")
-    ) {
-
-        return "🚚 Indiquez votre adresse ou votre quartier lors de la commande afin que la livraison puisse être organisée.";
-
-    }
-
-
-    if (
-        texte.includes("contact") ||
-        texte.includes("whatsapp") ||
-        texte.includes("email") ||
-        texte.includes("e-mail")
-    ) {
-
-        return "📞 Vous pouvez nous contacter avec les boutons WhatsApp et E-mail dans la section Contact.";
-
-    }
-
-
-    if (texte.includes("merci")) {
-
-        return "Avec plaisir 😊 BLAKFLAMME reste à votre service !";
-
-    }
-
-
-    return "😊 Je peux vous renseigner sur les produits, les prix, les commandes, le paiement, la livraison et le contact.";
-
+  return "Je suis l'assistant BLAKFLAMME 🤖. Vous pouvez me demander les prix, les produits, comment commander, le paiement ou la livraison.";
 }
 
+function envoyerMessage(message) {
 
-// =========================
-// ENVOYER
-// =========================
+  if (!message.trim()) return;
 
-function envoyerMessage() {
+  const messages = document.getElementById("chatbot-messages");
 
-    const message =
-        chatbotInput.value.trim();
+  const userMessage = document.createElement("div");
 
-    if (message === "") {
-        return;
-    }
+  userMessage.className = "user-message";
 
-    ajouterMessage(message, "user");
+  userMessage.textContent = message;
 
-    chatbotInput.value = "";
+  messages.appendChild(userMessage);
 
-    setTimeout(function () {
+  const botMessage = document.createElement("div");
 
-        ajouterMessage(
-            repondre(message),
-            "bot"
-        );
+  botMessage.className = "bot-message";
 
-    }, 500);
+  botMessage.textContent = repondre(message);
 
+  messages.appendChild(botMessage);
+
+  messages.scrollTop = messages.scrollHeight;
 }
-
-
-chatbotEnvoyer.addEventListener(
-    "click",
-    envoyerMessage
-);
-
-
-chatbotInput.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (event.key === "Enter") {
-
-            envoyerMessage();
-
-        }
-
-    }
-);
-
-
-// =========================
-// BOUTONS RAPIDES
-// =========================
 
 document
-    .querySelectorAll("#chatbot-choix button")
-    .forEach(function (button) {
+  .getElementById("chatbot-envoyer")
+  .addEventListener("click", () => {
 
-        button.addEventListener(
-            "click",
-            function () {
+    const input = document.getElementById("chatbot-message");
 
-                const question =
-                    button.dataset.question;
+    envoyerMessage(input.value);
 
-                let message = "";
+    input.value = "";
+  });
 
+document
+  .getElementById("chatbot-message")
+  .addEventListener("keydown", event => {
 
-                if (question === "produits") {
+    if (event.key === "Enter") {
 
-                    message =
-                        "Quels sont vos produits et leurs prix ?";
+      const input = document.getElementById("chatbot-message");
 
-                }
+      envoyerMessage(input.value);
 
+      input.value = "";
+    }
+  });
 
-                if (question === "commande") {
+document.querySelectorAll("#chatbot-choix button").forEach(button => {
 
-                    message =
-                        "Comment passer une commande ?";
+  button.addEventListener("click", () => {
 
-                }
+    const question = button.dataset.question;
 
-
-                if (question === "paiement") {
-
-                    message =
-                        "Comment payer ma commande ?";
-
-                }
-
-
-                if (question === "contact") {
-
-                    message =
-                        "Comment vous contacter ?";
-
-                }
-
-
-                ajouterMessage(
-                    message,
-                    "user"
-                );
-
-
-                setTimeout(function () {
-
-                    ajouterMessage(
-                        repondre(message),
-                        "bot"
-                    );
-
-                }, 500);
-
-            }
-        );
-
-    });
-
-
-// =========================
-// DÉMARRAGE
-// =========================
+    envoyerMessage(question);
+  });
+});
 
 afficherPanier();

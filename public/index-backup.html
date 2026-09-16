@@ -29,19 +29,24 @@
         <h1>🔥 BLAKFLAMME</h1>
 
         <nav>
-    <div class="menu-boutique">
-        <a href="#accueil">Accueil</a>
-        <a href="#produits">Produits</a>
-        <a href="#panier">Panier ??</a>
-        <a href="#contact">Contact</a>
-    </div>
 
-    <div class="menu-compte">
-        <span id="salutation-client" style="display:none; color:#000000;"></span>
-        <a href="/compte.html" id="lien-compte" style="color:#e00000;">?? Mon espace client</a>
-        <a href="/admin.html" id="lien-admin" style="display:none; color:#e00000;">?? Administration</a>
-    </div>
-</nav>
+            <a href="#accueil">
+                Accueil
+            </a>
+
+            <a href="#produits">
+                Produits
+            </a>
+
+            <a href="#panier">
+                Panier 🛒
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+        </nav>
 
     </header>
 
@@ -396,30 +401,3 @@
 </body>
 
 </html>
-
-<script>
-const utilisateurConnecte = localStorage.getItem("blakflamme_user");
-const lienCompte = document.getElementById("lien-compte");
-
-if (utilisateurConnecte && lienCompte) {
-    try {
-        const utilisateur = JSON.parse(utilisateurConnecte);
-
-        if (utilisateur.role === "admin") { document.getElementById("lien-admin").style.display = "inline-block"; } if (utilisateur.name) {
-            document.getElementById("salutation-client").textContent = "Bonjour " + utilisateur.name; document.getElementById("salutation-client").style.display = "inline-block";
-        }
-    } catch (erreur) {
-        console.error("Erreur utilisateur :", erreur);
-    }
-}
-</script>
-
-
-
-
-
-
-
-
-
-

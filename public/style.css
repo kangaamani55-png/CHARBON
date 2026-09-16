@@ -868,3 +868,207 @@ footer {
         bottom: 15px;
     }
 }
+
+/* =========================
+   FORMULAIRE DE COMMANDE
+========================= */
+
+#commande {
+    padding: 75px 7%;
+    background: #f5f5f5;
+}
+
+.commande-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    border-top: 5px solid #e00000;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.commande-container h2 {
+    text-align: center;
+    color: #000;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.commande-introduction {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.champ {
+    margin-bottom: 20px;
+}
+
+.champ label {
+    display: block;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 8px;
+}
+
+.champ input,
+.champ textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    outline: none;
+    transition: 0.3s;
+}
+
+.champ input:focus,
+.champ textarea:focus {
+    border-color: #e00000;
+    box-shadow: 0 0 0 3px rgba(224, 0, 0, 0.08);
+}
+
+.commande-recapitulatif {
+    margin-top: 30px;
+    padding: 22px;
+    background: #111;
+    color: white;
+    border-radius: 12px;
+}
+
+.commande-recapitulatif h3 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+#recapitulatif-liste p {
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
+.recapitulatif-total {
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 2px solid #e00000;
+    display: flex;
+    justify-content: space-between;
+    font-size: 21px;
+}
+
+#recapitulatif-total {
+    color: #ff1a1a;
+    font-weight: bold;
+}
+
+#confirmer-commande {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    border: none;
+    border-radius: 9px;
+    background: #e00000;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#confirmer-commande:hover {
+    background: #b00000;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(224, 0, 0, 0.3);
+}
+
+@media (max-width: 600px) {
+    #commande {
+        padding: 50px 6%;
+    }
+
+    .commande-container {
+        padding: 25px 20px;
+    }
+
+    .commande-container h2 {
+        font-size: 27px;
+    }
+}
+/* Organisation du menu BLAKFLAMME */
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.menu-boutique,
+.menu-compte {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.menu-compte {
+    margin-left: auto;
+}
+
+#salutation-client {
+    margin-right: 5px;
+}
+
+
+/* Espacement propre du menu */
+header nav {
+    gap: 30px;
+}
+
+.menu-boutique {
+    gap: 28px;
+    white-space: nowrap;
+}
+
+.menu-compte {
+    gap: 22px;
+    white-space: nowrap;
+}
+
+.menu-boutique a,
+.menu-compte a {
+    display: inline-block;
+    padding: 6px 4px;
+}
+
+#salutation-client {
+    display: inline-block;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+
+#salutation-client {
+    font-size: 14px;
+    color: #000000;
+    font-weight: normal;
+}
+
+
+.menu-compte {
+    padding-left: 25px;
+    margin-left: 20px;
+}
+
+#salutation-client {
+    padding-left: 5px;
+}
+
+
+#lien-compte:hover {
+    color: #000000 !important;
+}
+
+#lien-admin:hover {
+    color: #000000 !important;
+}
+

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1789572090510",
+    "name": "Client Test",
+    "phone": "0700000000",
+    "email": "test@blakflamme.ci",
+    "password": "$2b$10$uVnfJk8afVYIoXEEmmzrXet6t7aeMP2LSkb2VONrJcqAuJuhAp9bK",
+    "createdAt": "2026-09-16T15:21:30.510Z"
+  },
+  {
+    "id": "1789573741890",
+    "name": "KOUADIO KONAN",
+    "phone": "0719285952",
+    "email": "kangaamani55@gmail.com",
+    "password": "$2b$10$dcz0up0mcvIpMcTYjmJ1zO8xHoQuGdY4TMgu9oZWRTREUUUcz4b/S",
+    "createdAt": "2026-09-16T15:49:01.890Z"
+  },
+  {
+    "id": "1789576801153",
+    "name": "KANGA AMANI FRANCIS",
+    "phone": "044115426",
+    "email": "kangaamani15@gmail.com",
+    "password": "$2b$10$WfSzXmpSdAR58m4AYu1qfeQY5agslHtytdTEXjdl59zNalt2e5Dy.",
+    "createdAt": "2026-09-16T16:40:01.153Z",
+    "role": "admin"
+  }
+]

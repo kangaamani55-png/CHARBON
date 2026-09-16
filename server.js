@@ -4,20 +4,27 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Permet de recevoir les données JSON
 app.use(express.json());
 
-// Sert les fichiers du dossier public
+// Sert les fichiers du site
 app.use(express.static(path.join(__dirname, "public")));
+
+// Routes d'authentification
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
+// Routes des commandes
+const orderRoutes = require("./routes/orders");
+app.use("/api/orders", orderRoutes);
 
 // Route de test
 app.get("/api/health", (req, res) => {
   res.json({
-    message: "Serveur Vente Charbon fonctionne correctement"
+    message: "Serveur BLAKFLAMME fonctionne correctement"
   });
 });
 
 // Démarrage du serveur
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
+  console.log(`Serveur BLAKFLAMME démarré sur le port ${PORT}`);
 });

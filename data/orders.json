@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1789578327985",
+    "userId": "1789576801153",
+    "items": [
+      {
+        "nom": "Charbon — 5 kg",
+        "prix": 1500,
+        "quantite": 1
+      },
+      {
+        "nom": "Charbon — 10 kg",
+        "prix": 2500,
+        "quantite": 1
+      },
+      {
+        "nom": "Charbon — 50 kg",
+        "prix": 9000,
+        "quantite": 2
+      },
+      {
+        "nom": "Charbon — 25 kg",
+        "prix": 5000,
+        "quantite": 2
+      }
+    ],
+    "total": 32000,
+    "deliveryAddress": "BELLVILE 1",
+    "status": "Terminée",
+    "createdAt": "2026-09-16T17:05:27.985Z",
+    "completedAt": "2026-09-16T17:39:38.162Z"
+  },
+  {
+    "id": "1789585264387",
+    "userId": "1789573741890",
+    "items": [
+      {
+        "nom": "Charbon — 5 kg",
+        "prix": 1500,
+        "quantite": 2
+      },
+      {
+        "nom": "Charbon — 10 kg",
+        "prix": 2500,
+        "quantite": 2
+      }
+    ],
+    "total": 8000,
+    "deliveryAddress": "KENEDY\n",
+    "status": "Terminée",
+    "createdAt": "2026-09-16T19:01:04.387Z",
+    "completedAt": "2026-09-16T19:29:15.823Z"
+  }
+]
