@@ -1,4 +1,3 @@
-```js
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -45,7 +44,6 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    // Hashage sécurisé du mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {
@@ -141,4 +139,3 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
-```
