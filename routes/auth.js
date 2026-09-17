@@ -1,3 +1,4 @@
+```js
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -43,15 +44,21 @@ router.post("/register", async (req, res) => {
         message: "Un compte existe déjà avec cet email."
       });
     }
-const newUser = {
-  id: Date.now().toString(),
-  name,
-  phone,
-  email: email.toLowerCase(),
-  password: hashedPassword,
-  role: "client",
-  createdAt: new Date().toISOString()
-};    users.push(newUser);
+
+    // Hashage sécurisé du mot de passe
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      id: Date.now().toString(),
+      name,
+      phone,
+      email: email.toLowerCase(),
+      password: hashedPassword,
+      role: "client",
+      createdAt: new Date().toISOString()
+    };
+
+    users.push(newUser);
     saveUsers(users);
 
     res.status(201).json({
@@ -60,6 +67,7 @@ const newUser = {
 
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       message: "Erreur lors de la création du compte."
     });
@@ -115,16 +123,17 @@ router.post("/login", async (req, res) => {
       message: "Connexion réussie.",
       token,
       user: {
-  id: user.id,
-  name: user.name,
-  phone: user.phone,
-  email: user.email,
-  role: user.role || "client"
-}
+        id: user.id,
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        role: user.role || "client"
+      }
     });
 
   } catch (error) {
     console.error(error);
+
     res.status(500).json({
       message: "Erreur lors de la connexion."
     });
@@ -132,3 +141,4 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
+```

@@ -1,5 +1,7 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +42,7 @@
       background: white;
       padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .08);
       margin-bottom: 20px;
     }
 
@@ -74,6 +76,8 @@
       border-radius: 7px;
       cursor: pointer;
       font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .bouton:hover {
@@ -89,6 +93,19 @@
       font-weight: bold;
     }
 
+    .lien-mot-de-passe {
+      display: block;
+      margin: 15px 0;
+      color: #e00000;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .lien-mot-de-passe:hover {
+      text-decoration: underline;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -102,7 +119,7 @@
       padding: 20px;
       border-radius: 10px;
       border-top: 4px solid #e00000;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
     }
 
     .stat strong {
@@ -139,371 +156,489 @@
 
 <body>
 
-<header>
-  <h1>BLAKFLAMME</h1>
-  <p>Espace client</p>
-</header>
+  <header>
+    <h1>BLAKFLAMME</h1>
+    <p>Espace client</p>
+  </header>
 
-<main class="container">
+  <main class="container">
 
-  <!-- CONNEXION -->
-  <section id="connexion-section" class="box">
+    <!-- CONNEXION -->
+    <section id="connexion-section" class="box">
 
-    <h2>🔐 Connexion</h2>
+      <h2>🔐 Connexion</h2>
 
-    <form id="connexion-form">
+      <form id="connexion-form">
+
+        <div class="champ">
+          <label>Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+
+        <div class="champ">
+          <label>Mot de passe</label>
+
+          <div style="position:relative;">
+            <input type="password" id="login-password" required style="padding-right:45px;">
+
+            <button type="button" onclick="afficherMotDePasse()"
+              style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;font-size:18px;">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button class="bouton" type="submit">
+          Se connecter
+        </button>
+
+      </form>
+
+      <!-- NOUVEAU BOUTON -->
+      <a class="lien-mot-de-passe" id="mot-de-passe-oublie">
+        🔑 Mot de passe oublié ?
+      </a>
+
+      <p id="login-message" class="message"></p>
+
+      <button class="bouton secondaire" id="afficher-inscription">
+        Créer un compte
+      </button>
+
+    </section>
+
+    <!-- MOT DE PASSE OUBLIE -->
+    <section id="mot-de-passe-section" class="box cache">
+
+      <h2>🔑 Mot de passe oublié</h2>
+
+      <p>
+        Entrez votre adresse e-mail pour réinitialiser votre mot de passe.
+      </p>
 
       <div class="champ">
         <label>Email</label>
-        <input type="email" id="login-email" required>
+        <input type="email" id="reset-email" placeholder="Votre adresse e-mail">
       </div>
 
-      <div class="champ">
-        <label>Mot de passe</label>
-        <div style="position:relative;">
-<input type="password" id="login-password" required style="padding-right:45px;">
-<button type="button" onclick="afficherMotDePasse()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;font-size:18px;">???</button>
-</div>
-      </div>
-
-      <button class="bouton" type="submit">
-        Se connecter
+      <button class="bouton" type="button" onclick="demanderReinitialisation()">
+        Continuer
       </button>
 
-    </form>
-
-    <p id="login-message" class="message"></p>
-
-    <button class="bouton secondaire" id="afficher-inscription">
-      Créer un compte
-    </button>
-
-  </section>
-
-  <!-- INSCRIPTION -->
-  <section id="inscription-section" class="box cache">
-
-    <h2>📝 Créer un compte</h2>
-
-    <form id="inscription-form">
-
-      <div class="champ">
-        <label>Nom et prénom</label>
-        <input type="text" id="register-name" required>
-      </div>
-
-      <div class="champ">
-        <label>Téléphone</label>
-        <input type="tel" id="register-phone" required>
-      </div>
-
-      <div class="champ">
-        <label>Email</label>
-        <input type="email" id="register-email" required>
-      </div>
-
-      <div class="champ">
-        <label>Mot de passe</label>
-        <input type="password" id="register-password" minlength="6" required>
-      </div>
-
-      <button class="bouton" type="submit">
-        Créer mon compte
-      </button>
-
-    </form>
-
-    <p id="register-message" class="message"></p>
-
-    <button class="bouton secondaire" id="retour-connexion">
-      Retour à la connexion
-    </button>
-
-  </section>
-
-  <!-- ESPACE CLIENT -->
-  <section id="espace-client" class="cache">
-
-    <div class="box">
-      <h2>👋 Bienvenue <span id="nom-client"></span></h2>
-      <p>Voici votre espace personnel BLAKFLAMME.</p>
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-        <strong id="nombre-commandes">0</strong>
-        Commandes
-      </div>
-
-      <div class="stat">
-        <strong id="commandes-attente">0</strong>
-        En attente
-      </div>
-
-      <div class="stat">
-        <strong id="commandes-terminees">0</strong>
-        Terminées
-      </div>
-
-    </div>
-
-    <div class="box">
-
-      <h2>📦 Mes commandes</h2>
-
-      <div id="liste-commandes">
-        Aucune commande pour le moment.
-      </div>
+      <p id="reset-message" class="message"></p>
 
       <br>
 
-      <button class="bouton secondaire" onclick="deconnexion()">
-        Se déconnecter
+      <button class="bouton secondaire" type="button" onclick="retourConnexion()">
+        Retour à la connexion
       </button>
 
-      <a href="/" class="bouton">
-        Retour au site
-      </a>
+    </section>
 
-    </div>
+    <!-- INSCRIPTION -->
+    <section id="inscription-section" class="box cache">
 
-  </section>
+      <h2>📝 Créer un compte</h2>
 
-</main>
+      <form id="inscription-form">
 
-<script>
+        <div class="champ">
+          <label>Nom et prénom</label>
+          <input type="text" id="register-name" required>
+        </div>
 
-const token = localStorage.getItem("blakflamme_token");
-const user = JSON.parse(
-  localStorage.getItem("blakflamme_user") || "null"
-);
+        <div class="champ">
+          <label>Téléphone</label>
+          <input type="tel" id="register-phone" required>
+        </div>
 
-const connexionSection =
-  document.getElementById("connexion-section");
+        <div class="champ">
+          <label>Email</label>
+          <input type="email" id="register-email" required>
+        </div>
 
-const inscriptionSection =
-  document.getElementById("inscription-section");
+        <div class="champ">
+          <label>Mot de passe</label>
+          <input type="password" id="register-password" minlength="6" required>
+        </div>
 
-const espaceClient =
-  document.getElementById("espace-client");
+        <button class="bouton" type="submit">
+          Créer mon compte
+        </button>
 
+      </form>
 
-function afficherEspaceClient() {
+      <p id="register-message" class="message"></p>
 
-  if (!token || !user) {
-    connexionSection.classList.remove("cache");
-    inscriptionSection.classList.add("cache");
-    espaceClient.classList.add("cache");
-    return;
-  }
+      <button class="bouton secondaire" id="retour-connexion">
+        Retour à la connexion
+      </button>
 
-  connexionSection.classList.add("cache");
-  inscriptionSection.classList.add("cache");
-  espaceClient.classList.remove("cache");
+    </section>
 
-  document.getElementById("nom-client").textContent =
-    user.name;
+    <!-- ESPACE CLIENT -->
+    <section id="espace-client" class="cache">
 
-  chargerCommandes();
-}
+      <div class="box">
+        <h2>
+          👋 Bienvenue
+          <span id="nom-client"></span>
+        </h2>
 
+        <p>
+          Voici votre espace personnel BLAKFLAMME.
+        </p>
+      </div>
 
-document
-  .getElementById("afficher-inscription")
-  .addEventListener("click", () => {
+      <div class="stats">
 
-    connexionSection.classList.add("cache");
-    inscriptionSection.classList.remove("cache");
+        <div class="stat">
+          <strong id="nombre-commandes">0</strong>
+          Commandes
+        </div>
 
-  });
+        <div class="stat">
+          <strong id="commandes-attente">0</strong>
+          En attente
+        </div>
 
+        <div class="stat">
+          <strong id="commandes-terminees">0</strong>
+          Terminées
+        </div>
 
-document
-  .getElementById("retour-connexion")
-  .addEventListener("click", () => {
+      </div>
 
-    inscriptionSection.classList.add("cache");
-    connexionSection.classList.remove("cache");
+      <div class="box">
 
-  });
+        <h2>📦 Mes commandes</h2>
 
+        <div id="liste-commandes">
+          Aucune commande pour le moment.
+        </div>
 
-/* INSCRIPTION */
+        <br>
 
-document
-  .getElementById("inscription-form")
-  .addEventListener("submit", async (event) => {
+        <button class="bouton secondaire" onclick="deconnexion()">
+          Se déconnecter
+        </button>
 
-    event.preventDefault();
+        <a href="/" class="bouton">
+          Retour au site
+        </a>
 
-    const name =
-      document.getElementById("register-name").value;
+      </div>
 
-    const phone =
-      document.getElementById("register-phone").value;
+    </section>
 
-    const email =
-      document.getElementById("register-email").value;
+  </main>
 
-    const password =
-      document.getElementById("register-password").value;
+  <script>
 
-    try {
+    const token = localStorage.getItem("blakflamme_token");
 
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          password
-        })
-      });
-
-      const data = await response.json();
-
-      document.getElementById("register-message")
-        .textContent = data.message;
-
-      if (response.ok) {
-
-        document.getElementById("inscription-form").reset();
-
-        setTimeout(() => {
-
-          inscriptionSection.classList.add("cache");
-          connexionSection.classList.remove("cache");
-
-        }, 1000);
-      }
-
-    } catch (error) {
-
-      document.getElementById("register-message")
-        .textContent =
-        "Erreur de connexion au serveur.";
-
-    }
-
-  });
-
-
-/* CONNEXION */
-
-document
-  .getElementById("connexion-form")
-  .addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-    const email =
-      document.getElementById("login-email").value;
-
-    const password =
-      document.getElementById("login-password").value;
-
-    try {
-
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      });
-
-      const data = await response.json();
-
-      document.getElementById("login-message")
-        .textContent = data.message;
-
-      if (response.ok) {
-
-        localStorage.setItem(
-          "blakflamme_token",
-          data.token
-        );
-
-        localStorage.setItem(
-          "blakflamme_user",
-          JSON.stringify(data.user)
-        );
-
-        setTimeout(() => {
-          location.reload();
-        }, 500);
-      }
-
-    } catch (error) {
-
-      document.getElementById("login-message")
-        .textContent =
-        "Erreur de connexion au serveur.";
-
-    }
-
-  });
-
-
-/* COMMANDES */
-
-async function chargerCommandes() {
-
-  try {
-
-    const response = await fetch(
-      "/api/orders/my-orders",
-      {
-        headers: {
-          "Authorization": "Bearer " + token
-        }
-      }
+    const user = JSON.parse(
+      localStorage.getItem("blakflamme_user") || "null"
     );
 
-    const data = await response.json();
+    const connexionSection =
+      document.getElementById("connexion-section");
 
-    if (!response.ok) {
-      throw new Error(data.message);
+    const inscriptionSection =
+      document.getElementById("inscription-section");
+
+    const espaceClient =
+      document.getElementById("espace-client");
+
+    const motDePasseSection =
+      document.getElementById("mot-de-passe-section");
+
+
+    function afficherEspaceClient() {
+
+      if (!token || !user) {
+
+        connexionSection.classList.remove("cache");
+        inscriptionSection.classList.add("cache");
+        motDePasseSection.classList.add("cache");
+        espaceClient.classList.add("cache");
+
+        return;
+      }
+
+      connexionSection.classList.add("cache");
+      inscriptionSection.classList.add("cache");
+      motDePasseSection.classList.add("cache");
+      espaceClient.classList.remove("cache");
+
+      document.getElementById("nom-client").textContent =
+        user.name;
+
+      chargerCommandes();
     }
 
-    document.getElementById("nombre-commandes")
-      .textContent = data.count;
 
-    const commandes = data.orders || [];
+    /* AFFICHER INSCRIPTION */
 
-    const attente = commandes.filter(
-      commande => commande.status === "En attente"
-    ).length;
+    document
+      .getElementById("afficher-inscription")
+      .addEventListener("click", () => {
 
-    const terminees = commandes.filter(
-      commande => commande.status === "Terminée"
-    ).length;
+        connexionSection.classList.add("cache");
+        motDePasseSection.classList.add("cache");
+        inscriptionSection.classList.remove("cache");
 
-    document.getElementById("commandes-attente")
-      .textContent = attente;
+      });
 
-    document.getElementById("commandes-terminees")
-      .textContent = terminees;
 
-    const liste =
-      document.getElementById("liste-commandes");
+    /* RETOUR CONNEXION */
 
-    if (commandes.length === 0) {
+    document
+      .getElementById("retour-connexion")
+      .addEventListener("click", () => {
 
-      liste.innerHTML =
-        "<p>Aucune commande pour le moment.</p>";
+        inscriptionSection.classList.add("cache");
+        motDePasseSection.classList.add("cache");
+        connexionSection.classList.remove("cache");
 
-      return;
+      });
+
+
+    /* MOT DE PASSE OUBLIE */
+
+    document
+      .getElementById("mot-de-passe-oublie")
+      .addEventListener("click", () => {
+
+        connexionSection.classList.add("cache");
+        inscriptionSection.classList.add("cache");
+        motDePasseSection.classList.remove("cache");
+
+      });
+
+
+    /* RETOUR CONNEXION DEPUIS MOT DE PASSE OUBLIE */
+
+    function retourConnexion() {
+
+      motDePasseSection.classList.add("cache");
+      inscriptionSection.classList.add("cache");
+      connexionSection.classList.remove("cache");
+
     }
 
-    liste.innerHTML = commandes.map(commande => `
+
+    /* DEMANDE DE REINITIALISATION */
+
+    function demanderReinitialisation() {
+
+      const email =
+        document.getElementById("reset-email").value.trim();
+
+      const message =
+        document.getElementById("reset-message");
+
+      if (!email) {
+
+        message.textContent =
+          "Veuillez entrer votre adresse e-mail.";
+
+        return;
+      }
+
+      message.textContent =
+        "La fonction de réinitialisation sera bientôt disponible.";
+
+    }
+
+
+    /* INSCRIPTION */
+
+    document
+      .getElementById("inscription-form")
+      .addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const name =
+          document.getElementById("register-name").value;
+
+        const phone =
+          document.getElementById("register-phone").value;
+
+        const email =
+          document.getElementById("register-email").value;
+
+        const password =
+          document.getElementById("register-password").value;
+
+        try {
+
+          const response = await fetch("/api/auth/register", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+              name,
+              phone,
+              email,
+              password
+            })
+
+          });
+
+          const data = await response.json();
+
+          document.getElementById("register-message")
+            .textContent = data.message;
+
+          if (response.ok) {
+
+            document
+              .getElementById("inscription-form")
+              .reset();
+
+            setTimeout(() => {
+
+              inscriptionSection.classList.add("cache");
+              connexionSection.classList.remove("cache");
+
+            }, 1000);
+
+          }
+
+        } catch (error) {
+
+          document.getElementById("register-message")
+            .textContent =
+            "Erreur de connexion au serveur.";
+
+        }
+
+      });
+
+
+    /* CONNEXION */
+
+    document
+      .getElementById("connexion-form")
+      .addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const email =
+          document.getElementById("login-email").value;
+
+        const password =
+          document.getElementById("login-password").value;
+
+        try {
+
+          const response = await fetch("/api/auth/login", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+              email,
+              password
+            })
+
+          });
+
+          const data = await response.json();
+
+          document.getElementById("login-message")
+            .textContent = data.message;
+
+          if (response.ok) {
+
+            localStorage.setItem(
+              "blakflamme_token",
+              data.token
+            );
+
+            localStorage.setItem(
+              "blakflamme_user",
+              JSON.stringify(data.user)
+            );
+
+            setTimeout(() => {
+              location.reload();
+            }, 500);
+
+          }
+
+        } catch (error) {
+
+          document.getElementById("login-message")
+            .textContent =
+            "Erreur de connexion au serveur.";
+
+        }
+
+      });
+
+
+    /* COMMANDES */
+
+    async function chargerCommandes() {
+
+      try {
+
+        const response = await fetch(
+          "/api/orders/my-orders",
+          {
+            headers: {
+              "Authorization": "Bearer " + token
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message);
+        }
+
+        document.getElementById("nombre-commandes")
+          .textContent = data.count;
+
+        const commandes = data.orders || [];
+
+        const attente = commandes.filter(
+          commande => commande.status === "En attente"
+        ).length;
+
+        const terminees = commandes.filter(
+          commande => commande.status === "Terminée"
+        ).length;
+
+        document.getElementById("commandes-attente")
+          .textContent = attente;
+
+        document.getElementById("commandes-terminees")
+          .textContent = terminees;
+
+        const liste =
+          document.getElementById("liste-commandes");
+
+        if (commandes.length === 0) {
+
+          liste.innerHTML =
+            "<p>Aucune commande pour le moment.</p>";
+
+          return;
+        }
+
+        liste.innerHTML = commandes.map(commande => `
 
       <div class="commande">
 
@@ -530,45 +665,50 @@ async function chargerCommandes() {
 
     `).join("");
 
-  } catch (error) {
+      } catch (error) {
 
-    document.getElementById("liste-commandes")
-      .textContent =
-      "Impossible de charger les commandes.";
+        document.getElementById("liste-commandes")
+          .textContent =
+          "Impossible de charger les commandes.";
 
-  }
+      }
 
-}
-
-
-/* DECONNEXION */
-
-function deconnexion() {
-
-  localStorage.removeItem("blakflamme_token");
-  localStorage.removeItem("blakflamme_user");
-
-  location.reload();
-
-}
+    }
 
 
-afficherEspaceClient();
+    /* DECONNEXION */
 
-</script>
+    function deconnexion() {
+
+      localStorage.removeItem("blakflamme_token");
+      localStorage.removeItem("blakflamme_user");
+
+      location.reload();
+
+    }
+
+
+    /* AFFICHER / MASQUER MOT DE PASSE */
+
+    function afficherMotDePasse() {
+
+      const champ =
+        document.getElementById("login-password");
+
+      if (champ.type === "password") {
+        champ.type = "text";
+      } else {
+        champ.type = "password";
+      }
+
+    }
+
+
+    afficherEspaceClient();
+
+  </script>
 
 </body>
-</html><a href="/" style="display:inline-block;margin:20px 0;padding:12px 20px;background:#e00000;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">?? Retour � la boutique</a>
 
-
-<script>
-function afficherMotDePasse() {
-    const champ = document.getElementById("login-password");
-    if (champ.type === "password") {
-        champ.type = "text";
-    } else {
-        champ.type = "password";
-    }
-}
-</script>
-
+</html>
+```
