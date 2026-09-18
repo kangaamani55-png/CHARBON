@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BLAKFLAMME - Vente de Charbon</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome : logos et icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header>
+
+        <h1>🔥 BLAKFLAMME</h1>
+
+        <nav>
+    <div class="menu-boutique">
+        <a href="#accueil">Accueil</a>
+        <a href="#produits">Produits</a>
+        <a href="#panier">Panier ??</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <div class="menu-compte">
+        <span id="salutation-client" style="display:none; color:#000000;"></span>
+        <a href="/compte.html" id="lien-compte" style="color:#e00000;">?? Mon espace client</a>
+        <a href="/admin.html" id="lien-admin" style="display:none; color:#e00000;">?? Administration</a>
+    </div>
+</nav>
+
+    </header>
+
+
+
+    <main>
+
+
+        <!-- =========================
+             ACCUEIL
+        ========================== -->
+
+        <section id="accueil">
+
+            <h2>
+                Votre charbon de bois,
+                simplement.
+            </h2>
+
+            <p>
+                Achetez votre charbon de bois
+                facilement et choisissez la
+                quantité qui vous convient.
+            </p>
+
+            <a href="#produits">
+                Voir nos produits
+            </a>
+
+        </section>
+
+
+
+        <!-- =========================
+             PRODUITS
+        ========================== -->
+
+        <section id="produits">
+
+            <h2>
+                Nos produits
+            </h2>
+
+
+            <div>
+
+
+                <article>
+
+                    <h3>
+                        Charbon — 5 kg
+                    </h3>
+
+                    <p>
+                        1 500 FCFA
+                    </p>
+
+                    <button>
+                        Ajouter au panier
+                    </button>
+
+                </article>
+
+
+
+                <article>
+
+                    <h3>
+                        Charbon — 10 kg
+                    </h3>
+
+                    <p>
+                        2 500 FCFA
+                    </p>
+
+                    <button>
+                        Ajouter au panier
+                    </button>
+
+                </article>
+
+
+
+                <article>
+
+                    <h3>
+                        Charbon — 25 kg
+                    </h3>
+
+                    <p>
+                        5 000 FCFA
+                    </p>
+
+                    <button>
+                        Ajouter au panier
+                    </button>
+
+                </article>
+
+
+
+                <article>
+
+                    <h3>
+                        Charbon — 50 kg
+                    </h3>
+
+                    <p>
+                        9 000 FCFA
+                    </p>
+
+                    <button>
+                        Ajouter au panier
+                    </button>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PANIER
+        ========================== -->
+
+        <section id="panier">
+
+            <h2>
+                🛒 Mon panier
+            </h2>
+
+
+            <div id="panier-liste">
+
+                <p>
+                    Votre panier est vide.
+                </p>
+
+            </div>
+
+
+            <div class="panier-total">
+
+                <strong>
+                    Total :
+                </strong>
+
+                <span id="panier-total">
+                    0 FCFA
+                </span>
+
+            </div>
+
+
+            <button id="vider-panier">
+
+                Vider le panier
+
+            </button>
+
+
+            <button id="commander" disabled>
+
+                📦 Passer la commande
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             FORMULAIRE DE COMMANDE
+        ========================== -->
+
+        <section id="commande" style="display: none;">
+
+            <div class="commande-container">
+
+                <h2>
+                    📦 Votre commande
+                </h2>
+
+
+                <p class="commande-introduction">
+
+                    Merci de renseigner vos
+                    informations pour la livraison.
+
+                </p>
+
+
+                <form id="formulaire-commande">
+
+
+                    <div class="champ">
+
+                        <label for="nom">
+                            Nom et prénom
+                        </label>
+
+                        <input type="text" id="nom" name="nom" placeholder="Exemple : Amani Francis" required>
+
+                    </div>
+
+
+                    <div class="champ">
+
+                        <label for="telephone">
+                            Numéro de téléphone
+                        </label>
+
+                        <input type="tel" id="telephone" name="telephone" placeholder="Exemple : 0700000000" required>
+
+                    </div>
+
+
+                    <div class="champ">
+
+                        <label for="adresse">
+                            Adresse de livraison
+                        </label>
+
+                        <textarea id="adresse" name="adresse"
+                            placeholder="Indiquez votre quartier, rue ou point de repère" rows="4" required></textarea>
+
+                    </div>
+
+
+                    <div id="commande-recapitulatif" class="commande-recapitulatif">
+
+                        <h3>
+                            🛒 Récapitulatif
+                        </h3>
+
+
+                        <div id="recapitulatif-liste"></div>
+
+
+                        <div class="recapitulatif-total">
+
+                            <strong>
+                                Total :
+                            </strong>
+
+                            <span id="recapitulatif-total">
+                                0 FCFA
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" id="confirmer-commande">
+
+                        ✅ Confirmer la commande
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section id="contact">
+
+            <h2>
+                📞 Contactez-nous
+            </h2>
+
+
+            <p>
+                Une question ou besoin d'informations ?
+                Contactez directement BLAKFLAMME.
+            </p>
+
+
+            <div class="contact-buttons">
+
+
+                <!-- LOGO WHATSAPP -->
+
+                <a href="https://wa.me/2250544115426?text=Bonjour%20BLAKFLAMME%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20vos%20produits."
+                    target="_blank" class="contact-whatsapp">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                    <span>
+                        WhatsApp
+                    </span>
+
+                </a>
+
+
+
+                <!-- LOGO EMAIL -->
+
+                <a href="mailto:kangaamni15@gmail.com" class="contact-email">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <span>
+                        E-mail
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <p>
+
+            © 2026 BLAKFLAMME —
+            Vente de Charbon
+
+        </p>
+
+    </footer>
+
+
+
+    <script src="app.js"></script>
+
+
+</body>
+
+</html>
+
+<script>
+const utilisateurConnecte = localStorage.getItem("blakflamme_user");
+const lienCompte = document.getElementById("lien-compte");
+
+if (utilisateurConnecte && lienCompte) {
+    try {
+        const utilisateur = JSON.parse(utilisateurConnecte);
+
+        if (utilisateur.role === "admin") { document.getElementById("lien-admin").style.display = "inline-block"; } if (utilisateur.name) {
+            document.getElementById("salutation-client").textContent = "Bonjour " + utilisateur.name; document.getElementById("salutation-client").style.display = "inline-block";
+        }
+    } catch (erreur) {
+        console.error("Erreur utilisateur :", erreur);
+    }
+}
+</script>
+
+
+
+
+
+
+
+
+
+

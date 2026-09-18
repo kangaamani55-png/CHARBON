@@ -1,7 +1,7 @@
-const express = require("express");
+﻿const express = require("express");
 const path = require("path");
-
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -16,6 +16,10 @@ app.use("/api/auth", authRoutes);
 // Routes des commandes
 const orderRoutes = require("./routes/orders");
 app.use("/api/orders", orderRoutes);
+
+// Routes des produits
+const productRoutes = require("./routes/products");
+app.use("/api/products", productRoutes);
 
 // Route de test
 app.get("/api/health", (req, res) => {

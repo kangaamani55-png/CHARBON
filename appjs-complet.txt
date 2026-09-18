@@ -1,8 +1,8 @@
-const produits = [
-  { nom: "Charbon — 5 kg", prix: 1500 },
-  { nom: "Charbon — 10 kg", prix: 2500 },
-  { nom: "Charbon — 25 kg", prix: 5000 },
-  { nom: "Charbon — 50 kg", prix: 9000 }
+﻿const produits = [
+  { nom: "Charbon â€” 5 kg", prix: 1500 },
+  { nom: "Charbon â€” 10 kg", prix: 2500 },
+  { nom: "Charbon â€” 25 kg", prix: 5000 },
+  { nom: "Charbon â€” 50 kg", prix: 9000 }
 ];
 
 let panier = [];
@@ -32,8 +32,8 @@ function afficherPanier() {
     article.innerHTML = `
       <h3>${produit.nom}</h3>
       <p>Prix : ${produit.prix.toLocaleString()} FCFA</p>
-      <p>Quantité : ${produit.quantite}</p>
-      <button onclick="diminuer(${index})">−</button>
+      <p>QuantitÃ© : ${produit.quantite}</p>
+      <button onclick="diminuer(${index})">âˆ’</button>
       <button onclick="augmenter(${index})">+</button>
       <button onclick="supprimer(${index})">Supprimer</button>
     `;
@@ -121,7 +121,7 @@ function afficherRecapitulatif() {
     const ligne = document.createElement("p");
 
     ligne.textContent =
-      `${produit.nom} × ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA`;
+      `${produit.nom} Ã— ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA`;
 
     liste.appendChild(ligne);
   });
@@ -141,18 +141,18 @@ document
     const token = localStorage.getItem("blakflamme_token");
 
     if (!token) {
-      alert("Veuillez vous connecter à votre espace client avant de confirmer la commande.");
+      alert("Veuillez vous connecter Ã  votre espace client avant de confirmer la commande.");
       window.location.href = "/compte.html";
       return;
     }
 
-    let message = "🔥 *COMMANDE BLAKFLAMME* 🔥\n\n";
+    let message = "ðŸ”¥ *COMMANDE BLAKFLAMME* ðŸ”¥\n\n";
 
-    message += `👤 Nom : ${nom}\n`;
-    message += `📞 Téléphone : ${telephone}\n`;
-    message += `📍 Adresse : ${adresse}\n\n`;
+    message += `ðŸ‘¤ Nom : ${nom}\n`;
+    message += `ðŸ“ž TÃ©lÃ©phone : ${telephone}\n`;
+    message += `ðŸ“ Adresse : ${adresse}\n\n`;
 
-    message += "🛒 *Commande :*\n";
+    message += "ðŸ›’ *Commande :*\n";
 
     let total = 0;
 
@@ -164,13 +164,13 @@ document
       total += sousTotal;
 
       message +=
-        `• ${produit.nom} × ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA\n`;
+        `â€¢ ${produit.nom} Ã— ${produit.quantite} = ${sousTotal.toLocaleString()} FCFA\n`;
     });
 
     message +=
-      `\n💰 *TOTAL : ${total.toLocaleString()} FCFA*`;
+      `\nðŸ’° *TOTAL : ${total.toLocaleString()} FCFA*`;
 
-    // Préparer les articles pour le serveur
+    // PrÃ©parer les articles pour le serveur
     const items = panier.map(produit => ({
       nom: produit.nom,
       prix: produit.prix,
@@ -223,7 +223,7 @@ document
       );
 
       alert(
-        "✅ Commande enregistrée avec succès !\n\nStatut : En attente"
+        "âœ… Commande enregistrÃ©e avec succÃ¨s !\n\nStatut : En attente"
       );
 
       // Vider le panier
@@ -256,7 +256,7 @@ document
 const chatbotBouton = document.createElement("button");
 
 chatbotBouton.id = "chatbot-bouton";
-chatbotBouton.textContent = "💬";
+chatbotBouton.textContent = "ðŸ’¬";
 
 document.body.appendChild(chatbotBouton);
 
@@ -266,13 +266,13 @@ chatbot.id = "chatbot";
 
 chatbot.innerHTML = `
   <div id="chatbot-header">
-    <strong>🔥 Assistant BLAKFLAMME</strong>
-    <button id="chatbot-fermer">×</button>
+    <strong>ðŸ”¥ Assistant BLAKFLAMME</strong>
+    <button id="chatbot-fermer">Ã—</button>
   </div>
 
   <div id="chatbot-messages">
     <div class="bot-message">
-      Bonjour 👋 Bienvenue chez BLAKFLAMME !
+      Bonjour ðŸ‘‹ Bienvenue chez BLAKFLAMME !
       Comment puis-je vous aider ?
     </div>
   </div>
@@ -288,9 +288,9 @@ chatbot.innerHTML = `
     <input
       type="text"
       id="chatbot-message"
-      placeholder="Écrivez votre message..."
+      placeholder="Ã‰crivez votre message..."
     >
-    <button id="chatbot-envoyer">➤</button>
+    <button id="chatbot-envoyer">âž¤</button>
   </div>
 `;
 
@@ -313,7 +313,7 @@ function repondre(message) {
     texte.includes("salut") ||
     texte.includes("bonsoir")
   ) {
-    return "Bonjour 👋 Bienvenue chez BLAKFLAMME ! Que souhaitez-vous savoir ?";
+    return "Bonjour ðŸ‘‹ Bienvenue chez BLAKFLAMME ! Que souhaitez-vous savoir ?";
   }
 
   if (
@@ -321,19 +321,19 @@ function repondre(message) {
     texte.includes("prix") ||
     texte.includes("charbon")
   ) {
-    return `🔥 Nos produits :
+    return `ðŸ”¥ Nos produits :
 
-• Charbon 5 kg : 1 500 FCFA
-• Charbon 10 kg : 2 500 FCFA
-• Charbon 25 kg : 5 000 FCFA
-• Charbon 50 kg : 9 000 FCFA`;
+â€¢ Charbon 5 kg : 1 500 FCFA
+â€¢ Charbon 10 kg : 2 500 FCFA
+â€¢ Charbon 25 kg : 5 000 FCFA
+â€¢ Charbon 50 kg : 9 000 FCFA`;
   }
 
   if (
     texte.includes("commande") ||
     texte.includes("acheter")
   ) {
-    return "🛒 Ajoutez vos produits au panier, puis cliquez sur « Passer la commande ». Vous pourrez ensuite envoyer votre commande directement sur WhatsApp.";
+    return "ðŸ›’ Ajoutez vos produits au panier, puis cliquez sur Â« Passer la commande Â». Vous pourrez ensuite envoyer votre commande directement sur WhatsApp.";
   }
 
   if (
@@ -341,30 +341,30 @@ function repondre(message) {
     texte.includes("paiement") ||
     texte.includes("pay")
   ) {
-    return "💳 Pour le paiement, contactez-nous directement sur WhatsApp afin de connaître les modalités disponibles pour votre commande.";
+    return "ðŸ’³ Pour le paiement, contactez-nous directement sur WhatsApp afin de connaÃ®tre les modalitÃ©s disponibles pour votre commande.";
   }
 
   if (
     texte.includes("livraison") ||
     texte.includes("livrer")
   ) {
-    return "🚚 Pour la livraison, indiquez votre quartier, votre rue ou un point de repère dans le formulaire de commande.";
+    return "ðŸšš Pour la livraison, indiquez votre quartier, votre rue ou un point de repÃ¨re dans le formulaire de commande.";
   }
 
   if (
     texte.includes("contact") ||
     texte.includes("whatsapp")
   ) {
-    return "📞 Vous pouvez nous contacter directement sur WhatsApp depuis le bouton WhatsApp de la section Contact.";
+    return "ðŸ“ž Vous pouvez nous contacter directement sur WhatsApp depuis le bouton WhatsApp de la section Contact.";
   }
 
   if (
     texte.includes("merci")
   ) {
-    return "Avec plaisir 😊🔥";
+    return "Avec plaisir ðŸ˜ŠðŸ”¥";
   }
 
-  return "Je suis l'assistant BLAKFLAMME 🤖. Vous pouvez me demander les prix, les produits, comment commander, le paiement ou la livraison.";
+  return "Je suis l'assistant BLAKFLAMME ðŸ¤–. Vous pouvez me demander les prix, les produits, comment commander, le paiement ou la livraison.";
 }
 
 function envoyerMessage(message) {
@@ -428,139 +428,3 @@ document.querySelectorAll("#chatbot-choix button").forEach(button => {
 });
 
 afficherPanier();
-async function chargerProduits() {
-  const conteneur = document.getElementById("liste-produits-boutique");
-
-  if (!conteneur) {
-    console.error("La liste des produits est introuvable.");
-    return;
-  }
-
-  try {
-    const response = await fetch("/api/products");
-    const produitsAPI = await response.json();
-
-    if (!response.ok) {
-      conteneur.innerHTML = "<p>Impossible de charger les produits.</p>";
-      return;
-    }
-
-    produits.length = 0;
-
-    produitsAPI.forEach(produit => {
-      produits.push({
-        nom: produit.name,
-        prix: Number(produit.price),
-        description: produit.description || "",
-        image: produit.image || ""
-      });
-    });
-
-    conteneur.innerHTML = produits.map((produit, index) => `
-      <article>
-        ${
-          produit.image
-            ? `<img src="${produit.image}" alt="${produit.nom}" style="max-width:200px; border-radius:10px;">`
-            : ""
-        }
-
-        <h3>${produit.nom}</h3>
-
-        <p>
-          ${produit.description}
-        </p>
-
-        <strong>
-          ${produit.prix.toLocaleString()} FCFA
-        </strong>
-
-        <br><br>
-
-        <button onclick="ajouterAuPanier(${index})">
-          Ajouter au panier
-        </button>
-      </article>
-    `).join("");
-
-  } catch (error) {
-    console.error("Erreur lors du chargement des produits :", error);
-    conteneur.innerHTML = "<p>Erreur de connexion au serveur.</p>";
-  }
-}
-
-chargerProduits();
-
-
-
-async function chargerProduitsDepuisAPI() {
-  const conteneur = document.getElementById("produits");
-
-  if (!conteneur) {
-    console.error("Section produits introuvable.");
-    return;
-  }
-
-  try {
-    const response = await fetch("/api/products");
-    const produitsAPI = await response.json();
-
-    if (!response.ok) {
-      console.error("Impossible de charger les produits.");
-      return;
-    }
-
-    produits.length = 0;
-
-    produitsAPI.forEach(produit => {
-      produits.push({
-        id: produit.id,
-        nom: produit.name,
-        prix: Number(produit.price),
-        description: produit.description || "",
-        image: produit.image || ""
-      });
-    });
-
-    conteneur.innerHTML = "<h2>Nos produits</h2>";
-
-    produits.forEach((produit, index) => {
-      const article = document.createElement("article");
-
-      if (produit.image) {
-        const image = document.createElement("img");
-        image.src = produit.image;
-        image.alt = produit.nom;
-        image.style.maxWidth = "200px";
-        image.style.borderRadius = "10px";
-        article.appendChild(image);
-      }
-
-      const titre = document.createElement("h3");
-      titre.textContent = produit.nom;
-      article.appendChild(titre);
-
-      const description = document.createElement("p");
-      description.textContent = produit.description;
-      article.appendChild(description);
-
-      const prix = document.createElement("p");
-      prix.innerHTML =
-        "<strong>" + produit.prix.toLocaleString() + " FCFA</strong>";
-      article.appendChild(prix);
-
-      const bouton = document.createElement("button");
-      bouton.textContent = "Ajouter au panier";
-      bouton.addEventListener("click", () => {
-        ajouterAuPanier(index);
-      });
-
-      article.appendChild(bouton);
-      conteneur.appendChild(article);
-    });
-
-  } catch (error) {
-    console.error("Erreur lors du chargement des produits :", error);
-  }
-}
-
-chargerProduitsDepuisAPI();

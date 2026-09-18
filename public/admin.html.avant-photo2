@@ -619,93 +619,49 @@ async function chargerProduits() {
 
 
 async function ajouterProduit() {
-  const name =
-    document.getElementById("produit-nom").value.trim();
-
-  const price =
-    document.getElementById("produit-prix").value;
-
+  const name = document.getElementById("produit-nom").value.trim();
+  const price = document.getElementById("produit-prix").value;
   const description =
     document.getElementById("produit-description").value.trim();
+  const image =
+    document.getElementById("produit-image").value.trim();
 
-  const imageInput =
-    document.getElementById("produit-image");
-
-  const message =
-    document.getElementById("message-produit");
+  const message = document.getElementById("message-produit");
 
   if (!name || !price) {
     message.className = "erreur";
-    message.textContent =
-      "Le nom et le prix sont obligatoires.";
+    message.textContent = "Le nom et le prix sont obligatoires.";
     return;
   }
 
-  const adminToken =
-    localStorage.getItem("blakflamme_token");
+  const adminToken = localStorage.getItem("blakflamme_token");
 
   try {
-    let imageUrl = "";
-
-    if (imageInput.files.length > 0) {
-      const formData = new FormData();
-
-      formData.append("image", imageInput.files[0]);
-
-      const uploadResponse = await fetch(
-        "/api/products/upload",
-        {
-          method: "POST",
-          headers: {
-            "Authorization": "Bearer " + adminToken
-          },
-          body: formData
-        }
-      );
-
-      const uploadData = await uploadResponse.json();
-
-      if (!uploadResponse.ok) {
-        message.className = "erreur";
-        message.textContent =
-          uploadData.message ||
-          "Erreur lors de l'envoi de la photo.";
-        return;
-      }
-
-      imageUrl = uploadData.image;
-    }
-
-    const response = await fetch(
-      "/api/products",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + adminToken
-        },
-        body: JSON.stringify({
-          name,
-          price,
-          description,
-          image: imageUrl
-        })
-      }
-    );
+    const response = await fetch("/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + adminToken
+      },
+      body: JSON.stringify({
+        name,
+        price,
+        description,
+        image
+      })
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
       message.className = "erreur";
       message.textContent =
-        data.message ||
-        "Erreur lors de l'ajout.";
+        data.message || "Erreur lors de l'ajout.";
       return;
     }
 
     message.className = "succes";
-    message.textContent =
-      "Produit ajout? avec succ?s.";
+    message.textContent = "Produit ajouté avec succès.";
 
     document.getElementById("produit-nom").value = "";
     document.getElementById("produit-prix").value = "";
@@ -715,11 +671,8 @@ async function ajouterProduit() {
     chargerProduits();
 
   } catch (error) {
-    console.error(error);
-
     message.className = "erreur";
-    message.textContent =
-      "Erreur de connexion au serveur.";
+    message.textContent = "Erreur de connexion au serveur.";
   }
 }
 
